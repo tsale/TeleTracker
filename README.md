@@ -14,7 +14,7 @@ This repository contains Python scripts, `TeleTexter.py` and `TeleGatherer.py`, 
   - Spam the malicious channel with a specific message of your choise (DISRUPT)
 
 > [!NOTE]
-> This script is useful for analysts who need to monitor Telegram channels, collect information and track adversaries.
+> This script could be useful for threat intelligence analysts or reserachers who want to monitor, collect and track adversaries that use Telegram for C2 communication.
 
 ## Installation
 
