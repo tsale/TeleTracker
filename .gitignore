@@ -4,3 +4,7 @@ pyproject.toml
 .replit
 .breakpoints
 replit.nix
+.git
+.pythonlibs/
+.upm
+__pycache__/*

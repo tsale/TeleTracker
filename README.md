@@ -2,19 +2,18 @@
 
 This repository contains Python scripts, `TeleTexter.py` and `TeleGatherer.py`, designed to assist analysts in tracking and disrupting active malware campaigns that use Telegram for command and control (C2) communications.
 
-### TeleTexter.py
-
-`TeleTexter.py` is a script for sending messages to a specified Telegram channel. It can be used to send singular messages or continuously send messages at a rate of 25 messages per second. This script can be utilized in counter-operation strategies to disrupt C2 channels used by malware.
-
 ### TeleGatherer.py
 
-`TeleGatherer.py` is a script for gathering information regarding the channels of which the bots operate. It provides functionalities to:
+`TeleGatherer.py` is the main script for gathering information regarding the channels of which the bots operate. It provides functionalities to:
 - Retrieve basic information about a bot.
 - Gather details about a specific chat, including chat administrators and member count.
 - Information about the user behind the telegram channel, including Username and provided first and last name.
-- Optionally, read all group messagesn and creating an invite link to access the channel if the bot has the necessary permissions.
+- Optionally, provides with a menu to choose from:
+  - Reading all channel messages from a different user or bot. (MONITOR)
+  - Deleting all messages from the malicious channel. (DISRUPT)
+  - Spam the malicious channel with a specific message of your choise (DISRUPT)
 
-This script is useful for analysts who need to monitor Telegram channels, collect information and track adversaries. 
+This script could be useful for threat intel analysts for monitoring Telegram channels, collect information and track adversaries. 
 
 ## Installation
 
