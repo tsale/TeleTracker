@@ -2,8 +2,7 @@ import requests
 import time
 import pprint
 import argparse
-from TeleTexter import send_telegram_message
-
+from helpers.TeleTexter import send_telegram_message
 
 def parse_dict(title, dictionary):
   result = f"{title}:\n"
