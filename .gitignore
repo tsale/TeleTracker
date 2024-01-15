@@ -1,0 +1,6 @@
+.local/*
+poetry.lock
+pyproject.toml
+.replit
+.breakpoints
+replit.nix
