@@ -13,14 +13,15 @@ This repository contains Python scripts, `TeleTexter.py` and `TeleGatherer.py`, 
   - Deleting all messages from the malicious channel. (DISRUPT)
   - Spam the malicious channel with a specific message of your choise (DISRUPT)
 
-This script could be useful for threat intel analysts for monitoring Telegram channels, collect information and track adversaries. 
+> [!NOTE]
+> This script is useful for analysts who need to monitor Telegram channels, collect information and track adversaries.
 
 ## Installation
 
 To use these scripts, Python must be installed on your system, along with the `requests` library.
 
 1. Clone the repository:\
-`git clone https://github.com/yourusername/TeleTracker.git`
+```git clone https://github.com/yourusername/TeleTracker.git```
 
 2. Install the required Python package:\
 `pip install requests`
