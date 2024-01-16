@@ -21,7 +21,7 @@ This repository contains Python scripts, `TeleTexter.py` and `TeleGatherer.py`, 
 To use these scripts, Python must be installed on your system, along with the `requests` library.
 
 1. Clone the repository:\
-```git clone https://github.com/yourusername/TeleTracker.git```
+```git clone https://github.com/tsale/TeleTracker.git```
 
 2. Install the required Python package:\
 `pip install requests`
