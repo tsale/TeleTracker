@@ -8,3 +8,5 @@ replit.nix
 .pythonlibs/
 .upm
 __pycache__/*
+helpers/__pycache__/*
+.vscode/*

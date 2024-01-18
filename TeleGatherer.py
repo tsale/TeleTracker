@@ -2,6 +2,7 @@ import requests
 import time
 import pprint
 import argparse
+import multiprocessing
 from helpers.TeleTexter import send_telegram_message
 
 def parse_dict(title, dictionary):
@@ -110,34 +111,38 @@ def main(bot_token, chat_id):
           time.sleep(1)
       else:
         print("Bot does not have permission to read messages.")
+
     elif choice == '2':
       message = input("Enter the message you want to send: ")
       send_telegram_message(bot_token, chat_id, message)
-      print("Message sent successfully!")
+    
     elif choice == '3':
-      message = input("Enter the message you want to spam: ")
-      try:
-        while True:
-          response = send_telegram_message(bot_token, chat_id, message)
-          if response.status_code == 200:
-            print("\n[+] Message sent successfully!")
-          time.sleep(0.04)  # Delay to respect rate limits, adjust as needed
-      except KeyboardInterrupt:
-        print("Spamming interrupted. Going back to options.")
+        message = input("Enter the message you want to spam: ")
+        processes = []
+        for _ in range(1000000000):  # Adjust the number of processes as needed
+            p = multiprocessing.Process(target=send_telegram_message, args=(bot_token, chat_id, message))
+            p.start()
+            processes.append(p)
+
+        for p in processes:
+            p.join()
+    
     elif choice == '4':
       x = 0
       consecutive_not_found = 0
       url = f"https://api.telegram.org/bot{bot_token}/deleteMessage"
-      while consecutive_not_found < 20:
+      while consecutive_not_found < 100:
         data = {"chat_id": chat_id, "message_id": x}
         response = requests.post(url, data=data)
-        x += 1
         if response.status_code == 200:
           print("Message deleted successfully!")
+          x += 1
           consecutive_not_found = 0
         elif response.status_code == 400:
           consecutive_not_found += 1
         time.sleep(0.04)  # Delay to respect rate limits, adjust as needed
+      print(f"Deleted {x} messages from the malicious channel.")
+    
     elif choice == '5':
       print("Exiting...")
       break
