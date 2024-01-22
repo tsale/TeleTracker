@@ -10,3 +10,8 @@ replit.nix
 __pycache__/*
 helpers/__pycache__/*
 .vscode/*
+*.session
+results.txt
+downloads/*
+*.json
+*.txt
