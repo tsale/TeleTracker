@@ -15,3 +15,5 @@ results.txt
 downloads/*
 *.json
 *.txt
+.env
+.DS_Store

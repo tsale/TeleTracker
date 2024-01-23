@@ -16,6 +16,18 @@ def parse_dict(title, dictionary):
       result += f"- {key}: {value}\n"
   return result + "\n"
 
+def delete_messages(bot_token, chat_id, message_id):
+  try:
+    response = deleteMessage(bot_token, chat_id, message_id)
+    if response.get("ok") == True:
+      print(f"Deleted message {message_id}")
+      message_id -= 1
+    elif response.get("ok") == False and response.get("description") == "Bad Request: message can't be deleted for everyone":
+      print(f"Message {message_id} is an old message. You can only delete messages that are within 24 hours.")
+    elif response.get("ok") == False:
+      print(f"Message {message_id} not found.")
+  except Exception as e:
+    print(f"Error: {message_id}")
 
 def deleteMessage(bot_token, chat_id, message_id):
   url = f"https://api.telegram.org/bot{bot_token}/deleteMessage"
@@ -161,42 +173,17 @@ def main(bot_token, chat_id):
         p.join()
 
     elif choice == '4':
-      x = get_latest_messageid(bot_token, chat_id)
-      try:
-        consecutive_not_found = 0
-        deleted_num = 0
-        while consecutive_not_found < 100:
-          max_retries = 5
-          for i in range(max_retries):
-            try:
-              if x is None:
-                break
-              response = deleteMessage(bot_token, chat_id, x)
-              if response.get("ok") == True:
-                print(f"Deleted message {x}")
-                x -= 1
-                deleted_num += 1
-                consecutive_not_found = 0
-              elif response.get("ok") == False and response.get(
-                  "description"
-              ) == "Bad Request: message can't be deleted for everyone":
-                print(
-                    f"Message {x} is an old message. You can only delete messages that are within 24 hours."
-                )
-                x -= 1
-              elif response.get("ok") == False:
-                print(f"Message {x} not found.")
-                consecutive_not_found += 1
-                x -= 1
-            except Exception as e:
-              print(
-                  f"Error: {e}. Attempt {i+1} of {max_retries}. Retrying in 5 seconds..."
-              )
-              time.sleep(5)
-          time.sleep(0.04)  # Delay to respect rate limits, adjust as needed
-        print(f"Deleted {deleted_num} messages from the malicious channel.")
-      except Exception as e:
-        print(f"Error: {x}")
+      message_id = get_latest_messageid(bot_token, chat_id)
+      processes = []
+      for _ in range(1000000000):  # Adjust the number of processes as needed
+        p = multiprocessing.Process(target=delete_messages,
+                                    args=(bot_token, chat_id, message_id))
+        p.start()
+        processes.append(p)
+        message_id -= 1
+
+      for p in processes:
+        p.join()
 
     elif choice == '5':
       message_id = get_latest_messageid(bot_token, chat_id)
@@ -242,5 +229,33 @@ if __name__ == "__main__":
   parser.add_argument("-t", "--bot_token", help="Telegram Bot Token")
   parser.add_argument("-c", "--chat_id", help="Telegram Chat ID", type=int)
   args = parser.parse_args()
+
+  # Check a file for the bot token and chat id pair it is stored in the file in the form of bot_token:chat_id, then print a message asking if you are sure you want to continue. Otherwise continue and add the bot token and chat id to the file in the form of bot_token:chat_id and continue.
+def check_file_for_token_and_chat_id(file_path, bot_token, chat_id):
+  with open(file_path, 'r') as file:
+    for line in file:
+      if line.strip() == f"{bot_token}:{chat_id}":
+        return True
+  return False
+
+def add_token_and_chat_id_to_file(file_path, bot_token, chat_id):
+  with open(file_path, 'a') as file:
+    file.write(f"{bot_token}:{chat_id}\n")
+
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser(description="Telegram Bot Script")
+  parser.add_argument("-t", "--bot_token", help="Telegram Bot Token")
+  parser.add_argument("-c", "--chat_id", help="Telegram Chat ID", type=int)
+  args = parser.parse_args()
+
+  file_path = ".bot-history"  # Replace with the actual file path
+
+  if check_file_for_token_and_chat_id(file_path, args.bot_token, args.chat_id):
+    print("Bot token and chat ID pair already exists in the file.")
+    response = input("Are you sure you want to continue? (y/n): ")
+    if response.lower() != "y":
+      exit()
+  else:
+    add_token_and_chat_id_to_file(file_path, args.bot_token, args.chat_id)
 
   main(args.bot_token, args.chat_id)
