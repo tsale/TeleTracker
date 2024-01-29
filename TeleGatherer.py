@@ -250,6 +250,10 @@ if __name__ == "__main__":
 
   file_path = ".bot-history"  # Replace with the actual file path
 
+  # Remove possible keyword "bot" before the token
+  if args.bot_token.startswith("bot"):
+    args.bot_token = args.bot_token[3:]
+
   if check_file_for_token_and_chat_id(file_path, args.bot_token, args.chat_id):
     print("Bot token and chat ID pair already exists in the file.")
     response = input("Are you sure you want to continue? (y/n): ")
