@@ -49,7 +49,7 @@ To send messages continuously:
 - Specify the number of messages to download, from the newest to the oldest.
 - Save all text in two formats: clean, readable text with basic info saved in a Txt file and a comprehensive list of every message saved in a JSON file.
 
-To use `Televiewer.py`, create a Telegram API and add your `API_hash` and `API_id` to the `.env` file. in the below format:
+To use `Televiewer.py`, create a [Telegram API](https://core.telegram.org/api/obtaining_api_id) and add your `API_hash` and `API_id` to the `.env` file. in the below format:
 
 ```
 API_ID="XXX"
