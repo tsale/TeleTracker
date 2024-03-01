@@ -3,6 +3,7 @@ import time
 import pprint
 import argparse
 import multiprocessing
+import mimetypes
 from helpers.TeleTexter import send_telegram_message
 from helpers.TeleViewer import process_messages
 
@@ -35,6 +36,43 @@ def deleteMessage(bot_token, chat_id, message_id):
   response = requests.post(url, data=data)
   return response.json()
 
+def send_file_to_telegram_channel(bot_token, chat_id, file_path):
+  try:
+    mime_type = mimetypes.guess_type(file_path)[0]
+    file_type = 'document'  # default to document
+
+    if mime_type:
+      if 'audio' in mime_type:
+        file_type = 'audio'
+      elif 'video' in mime_type:
+        file_type = 'video'
+      elif 'image' in mime_type:
+        file_type = 'photo'
+
+    file_type_methods = {
+      'document': 'sendDocument',
+      'photo': 'sendPhoto',
+      'audio': 'sendAudio',
+      'video': 'sendVideo',
+      'animation': 'sendAnimation',
+      'voice': 'sendVoice',
+      'video_note': 'sendVideoNote'
+    }
+
+    url = f"https://api.telegram.org/bot{bot_token}/{file_type_methods[file_type]}"
+    with open(file_path, 'rb') as file:
+      files = {
+        file_type: file
+      }
+      message = input("Enter the message to send with the file (press enter to skip): ")
+      data = {
+        'chat_id': chat_id,
+        'caption': message
+      }
+      response = requests.post(url, files=files, data=data)
+      return response.json()
+  except Exception as e:
+    print(f"An error occurred while trying to send the file: {e}")
 
 def get_my_commands(chat_id, bot_token):
   url = f"https://api.telegram.org/bot{bot_token}/getMyCommands"
@@ -122,14 +160,11 @@ def main(bot_token, chat_id):
     print("1. Monitor for new messages from a different bot")
     print("2. Send a message to the malicious telegram channel")
     print("3. Spam the malicious telegram channel with a specific message")
-    print(
-        "4. Delete all messages from the malicious telegram channel that are sent within 24 hours"
-    )
-    print(
-        "5. Get approximate number of messages on the malicious telegram channel"
-    )
-    print("6. Get messages from the malicious telegram channel")
-    print("7. EXIT")
+    print("4. Delete all messages from the malicious telegram channel that are sent within 24 hours\n")
+    print("5. Get approximate number of messages on the malicious telegram channel")
+    print("6. Download ALL messages from the malicious telegram channel")
+    print("7. Send a file to the malicious telegram channel\n")
+    print("8. EXIT")
     choice = input("\nEnter your choice: ")
     if choice == '1':
       offset = None  # Variable to keep track of the last update ID
@@ -216,8 +251,15 @@ def main(bot_token, chat_id):
           print(message_id)
       except Exception as e:
         print(f"Error: {e}")
-
     elif choice == '7':
+      file_path = input("Enter the absolute file path: ")
+      response = send_file_to_telegram_channel(bot_token, chat_id, file_path)
+      if response.get("ok") == True:
+        print("File sent. Response:")
+        pprint.pprint(response)
+      else:
+        print("Error: Unable to send file: ", response.get("description"))
+    elif choice == '8':
       print("Exiting...")
       break
     else:

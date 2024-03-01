@@ -16,3 +16,5 @@ downloads/*
 *.json
 .env
 .DS_Store
+.bot-history
+.venv
