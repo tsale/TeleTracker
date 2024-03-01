@@ -7,8 +7,11 @@ This repository contains Python scripts, `TeleTexter.py`, `TeleGatherer.py` and 
 `TeleGatherer.py` is the main script for gathering intelligence on the activities of threat actors and the data they collect from compromised hosts. It has been updated with new features and improvements:
 
 - [x] View all channel messages and download all uploaded content such as documents, photos, videos, and other media. Content is saved in a directory called 'downloads'.
-- [x] Select the number of messages to download, starting from the newest to the oldest.
-- [x] Save all text in two formats: pretty text with basic info and full JSON dumps of every message.
+- [x] Send to the Telegram channel along with an optional message.
+  - It supports all files that are officially supported by Telegram.
+  - The function will automatically detect the file type based on its MIME type. If the MIME type is not recognized, the file will be sent as a document.
+- [x] Select the number of messages to download, **starting from the newest to the oldest**.
+- [x] Save all logs in two formats: pretty text with basic info and full JSON dumps of every message you download.
 - [x] Retrieve basic information about a bot and its owner along with other channel-related information.
 - [x] Existing features have undergone many improvements, including bug fixes and enhancements.
 - [x] Optionally, provides a menu to choose from:
