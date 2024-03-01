@@ -6,18 +6,34 @@ This repository contains Python scripts, `TeleTexter.py`, `TeleGatherer.py` and 
 
 `TeleGatherer.py` is the main script for gathering intelligence on the activities of threat actors and the data they collect from compromised hosts. It has been updated with new features and improvements:
 
-- [x] View all channel messages and download all uploaded content such as documents, photos, videos, and other media. Content is saved in a directory called 'downloads'.
-- [x] Send to the Telegram channel along with an optional message.
-  - It supports all files that are officially supported by Telegram.
-  - The function will automatically detect the file type based on its MIME type. If the MIME type is not recognized, the file will be sent as a document.
-- [x] Select the number of messages to download, **starting from the newest to the oldest**.
-- [x] Save all logs in two formats: pretty text with basic info and full JSON dumps of every message you download.
-- [x] Retrieve basic information about a bot and its owner along with other channel-related information.
-- [x] Existing features have undergone many improvements, including bug fixes and enhancements.
-- [x] Optionally, provides a menu to choose from:
-  - ***Reading*** all new messages from a different user or bot. (MONITOR)
-  - ***Deleting*** all messages from the malicious channel. (DISRUPT)
-  - ***Spamming*** the malicious channel with a specific message of your choice using multiprocessing to send hundreds of messages per second. (DISRUPT)
+- ✅ **View Channel Messages & Download Content**
+  - Save content in current working directory under new folder named 'downloads'.
+  - Supports the download of documents, photos, videos, etc.
+
+- ✅ **Send Documents via Telegram**
+  - Optionally send a message.
+  - Supports all Telegram file types.
+  - Auto-detects MIME type.
+
+- ✅ **Message Selection**
+  - Choose a specified number of messages or a specific message_id for download.
+  - Download is **ALWAYS** from newest to oldest message.
+
+- ✅ **Log Saving**
+  - Pretty text with basic info under <bot_name>.txt.
+  - Full JSON dumps of each message under <bot_name>.json.
+
+- ✅ **Bot Information Retrieval**
+  - Get info on bot and owner.
+  - Includes channel-related details.
+
+- ✅ **Newest Added Feature/Enhancement**
+  - Send files functionality.
+
+- ✅ **Optional Menu**
+  - **MONITOR:** Read new messages.
+  - **DISRUPT:** Delete messages from malicious channels.
+  - **DISRUPT:** Spam channels at a high rate with the message of your choice.
 
 > [!NOTE]
 > This script is intended for threat intelligence analysts or researchers who want to monitor, collect, and track adversaries using Telegram for C2 communication.
