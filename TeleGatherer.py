@@ -265,14 +265,7 @@ def main(bot_token, chat_id):
     else:
       print("Invalid choice. Please try again.")
 
-
-if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description="Telegram Bot Script")
-  parser.add_argument("-t", "--bot_token", help="Telegram Bot Token")
-  parser.add_argument("-c", "--chat_id", help="Telegram Chat ID", type=int)
-  args = parser.parse_args()
-
-  # Check a file for the bot token and chat id pair it is stored in the file in the form of bot_token:chat_id, then print a message asking if you are sure you want to continue. Otherwise continue and add the bot token and chat id to the file in the form of bot_token:chat_id and continue.
+# Check a file for the bot token and chat id pair it is stored in the file in the form of bot_token:chat_id, then print a message asking if you are sure you want to continue. Otherwise continue and add the bot token and chat id to the file in the form of bot_token:chat_id and continue.
 def check_file_for_token_and_chat_id(file_path, bot_token, chat_id):
   with open(file_path, 'r') as file:
     for line in file:
