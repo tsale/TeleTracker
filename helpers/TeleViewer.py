@@ -32,10 +32,10 @@ def get_file_info(data):
       elif media_type == "audio":
         return (data.audio.file_id, data.audio.file_name)
       else:
-        return None
+        return (None, None)
     except Exception as e:
       print(f"Error: {e}")
-      return None
+      return (None, None)
 
 
 def parse_and_print_message(message):
@@ -49,7 +49,8 @@ def parse_and_print_message(message):
 
 
 def process_messages(bot_token, chat_id, num_messages, message_id):
-  app = pyrogram.Client(bot_token, api_id, api_hash)
+  bot_token_filename = bot_token.replace(":", "_").replace("/", "_")
+  app = pyrogram.Client(bot_token_filename, api_id, api_hash)
 
   async def main(num_messages, message_id):
     try:
