@@ -140,21 +140,23 @@ def main(bot_token, chat_id):
   can_read = get_bot_info(bot_token).get('result',
                                          {}).get('can_read_all_group_messages',
                                                  False)
-  print(parse_dict("Bot Information", get_bot_info(bot_token)))
-  print(parse_dict("Chat Information", get_chat_info(bot_token, chat_id)))
-  print(
-      parse_dict("Chat Administrators",
-                 get_chat_administrators(bot_token, chat_id)))
-  print(
-      parse_dict("My Default Administrator Rights",
-                 get_My_Default_AdministratorRights(bot_token, chat_id)))
-  print(
-      parse_dict("Available Bot Commands", get_my_commands(chat_id,
-                                                           bot_token)))
-  print(
-      parse_dict("Chat Member Count",
-                 get_chat_member_count(bot_token, chat_id)))
-
+  if not args.silent:
+    print(parse_dict("Bot Information", get_bot_info(bot_token)))
+    print(parse_dict("Chat Information", get_chat_info(bot_token, chat_id)))
+    print(
+        parse_dict("Chat Administrators",
+                  get_chat_administrators(bot_token, chat_id)))
+    print(
+        parse_dict("My Default Administrator Rights",
+                  get_My_Default_AdministratorRights(bot_token, chat_id)))
+    print(
+        parse_dict("Available Bot Commands", get_my_commands(chat_id,
+                                                            bot_token)))
+    print(
+        parse_dict("Chat Member Count",
+                  get_chat_member_count(bot_token, chat_id)))
+  if args.info:
+    exit()
   while True:
     print("\nOptions:")
     print("1. Monitor for new messages from a different bot")
@@ -280,7 +282,9 @@ def add_token_and_chat_id_to_file(file_path, bot_token, chat_id):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Telegram Bot Script")
   parser.add_argument("-t", "--bot_token", help="Telegram Bot Token")
+  parser.add_argument("-i", "--info", help="Get Bot Information and exit", action="store_true")
   parser.add_argument("-c", "--chat_id", help="Telegram Chat ID", type=int)
+  parser.add_argument("-s", "--silent", help="Silent mode, no prompts, just show the information and exit", action="store_true")
   args = parser.parse_args()
 
   file_path = ".bot-history"  # Replace with the actual file path
