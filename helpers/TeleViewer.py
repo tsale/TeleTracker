@@ -24,6 +24,7 @@ def get_file_info(data):
                 "MessageMediaType.VOICE",
                 "MessageMediaType.AUDIO",
                 "MessageMediaType.STICKER",
+                "MessageMediaType.ANIMATION",
             ]:
                 if key in str(data):
                     media_type = key
@@ -43,6 +44,8 @@ def get_file_info(data):
                 return (data.audio.file_id, data.audio.file_name)
             elif media_type == "MessageMediaType.STICKER":
                 return (data.sticker.file_id, data.sticker.file_name)
+            elif media_type == "MessageMediaType.ANIMATION":
+                return (data.animation.file_id, data.animation.file_name)
             else:
                 return (None, None)
         except Exception as e:
