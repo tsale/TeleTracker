@@ -13,24 +13,28 @@ api_hash = os.getenv('API_HASH')
 def get_file_info(data):
   media_type = ""
   random_numbers = [random.randint(1, 100) for _ in range(6)]
+  # print("data.media value:", data.media)
   if data.media is not None:
     try:
-      for key in ['document', 'photo', 'video', 'location', 'voice', 'audio']:
+      for key in ['MessageMediaType.DOCUMENT', 'MessageMediaType.PHOTO', 'MessageMediaType.VIDEO', 'MessageMediaType.LOCATION', 'MessageMediaType.VOICE', 'MessageMediaType.AUDIO', 'MessageMediaType.STICKER']:
         if key in str(data):
           media_type = key
+          # print("Media_type found:", media_type)
           break
-      if media_type == "document":
+      if media_type == "MessageMediaType.DOCUMENT":
         return (data.document.file_id, data.document.file_name)
-      elif media_type == "photo":
+      elif media_type == "MessageMediaType.PHOTO":
         return (data.photo.file_id, f"{random_numbers}.png")
-      elif media_type == "video":
+      elif media_type == "MessageMediaType.VIDEO":
         return (data.video.file_id, data.video.file_name)
-      elif media_type == "location":
+      elif media_type == "MessageMediaType.LOCATION":
         return (data.location.file_id, data.location.file_name)
-      elif media_type == "voice":
+      elif media_type == "MessageMediaType.VOICE":
         return (data.voice.file_id, data.voice.file_name)
-      elif media_type == "audio":
+      elif media_type == "MessageMediaType.AUDIO":
         return (data.audio.file_id, data.audio.file_name)
+      elif media_type == "MessageMediaType.STICKER":
+        return (data.sticker.file_id, data.sticker.file_name)
       else:
         return (None, None)
     except Exception as e:
@@ -113,6 +117,8 @@ def process_messages(bot_token, chat_id, num_messages, message_id):
                 file.write(str(messages))
             else:
               directory = f'Downloads/{chat_id}/logs'
+              if not os.path.exists(directory):
+                os.makedirs(directory)
               with open(f'{directory}/{chat_id}_bot.txt', 'a') as file:
                 file.write(f"Message ID: {messages.id}\n")
                 file.write(f"Date: {messages.date}\n")
